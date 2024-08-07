@@ -1,0 +1,26 @@
+const express = require('express')
+const connectDB = require('./config/connectDB')
+const dotenv = require('dotenv').config()
+const cors = require('cors')
+const app = express()
+
+
+const port = process.env.PORT || 3000
+connectDB()
+
+app.use(cors());
+app.use(cors(
+    {
+        origin: [""],
+        methods: ["GET" , "POST" , "PUT" , "DELETE"],
+        credentials: true
+    }
+))
+app.use(express.json())
+
+app.use('/tasks' , require('./routes/task.routes'))
+app.use('/users', require('./routes/users.routes'))
+
+app.listen(port , () => {
+    console.log(`server running on ${port}`)
+})
